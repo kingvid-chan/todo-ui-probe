@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "name": "Todo UI Probe",
+  "slug": "todo-ui-probe",
+  "local_path": "/Users/cqw/外部需求/todo-ui-probe",
+  "github_url": "https://github.com/kingvid-chan/todo-ui-probe",
+  "preview": {
+    "server": "aliyun-cowork",
+    "deploy_root": "/srv/codingagent/todo-ui-probe",
+    "service_name": "codingagent-todo-ui-probe",
+    "port": 19003,
+    "base_path": "/projects/todo-ui-probe/",
+    "public_url": "http://120.24.117.67/projects/todo-ui-probe/",
+    "health_path": "/projects/todo-ui-probe/healthz"
+  }
+}
