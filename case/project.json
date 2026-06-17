@@ -10,7 +10,7 @@
     "service_name": "codingagent-todo-ui-probe",
     "port": 19003,
     "base_path": "/projects/todo-ui-probe/",
-    "public_url": "https://120.24.117.67/projects/todo-ui-probe/",
+    "public_url": "http://120.24.117.67/projects/todo-ui-probe/",
     "health_path": "/projects/todo-ui-probe/healthz"
   }
 }
