@@ -1,0 +1,10 @@
+Server: aliyun-cowork (120.24.117.67)
+Service: codingagent-todo-ui-probe
+Endpoint: https://120.24.117.67/projects/todo-ui-probe/healthz
+Method: GET
+Protocol: HTTPS
+Status: 200 OK
+Response: {"ok": true}
+Timestamp: "2026-06-17T04:43:53Z"
+Tag: 0.0.1
+Commit: c89690e1706df7ce0eb84dead442b5bf9681a165

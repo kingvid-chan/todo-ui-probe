@@ -1,0 +1,58 @@
+{
+  "schema_version": 3,
+  "public_url": "http://120.24.117.67/projects/todo-ui-probe/",
+  "final_url": "http://120.24.117.67/projects/todo-ui-probe/",
+  "base_path_ok": true,
+  "release_version": "0.0.1",
+  "document_response_headers": {
+    "Cache-Control": "no-cache",
+    "server": "nginx/1.24.0 (Ubuntu)"
+  },
+  "static_assets": [],
+  "stylesheets": [],
+  "asset_probes": [],
+  "pages": [
+    {
+      "url": "http://120.24.117.67/projects/todo-ui-probe/",
+      "title": "Todo List — Todo UI Probe",
+      "ok": true
+    }
+  ],
+  "workflow_checks": [
+    {
+      "step": "add_task",
+      "detail": "添加「买牛奶」「写报告」成功显示在列表中",
+      "ok": true
+    },
+    {
+      "step": "check_complete",
+      "detail": "勾选「买牛奶」后出现划线+灰色样式",
+      "ok": true
+    },
+    {
+      "step": "delete_task",
+      "detail": "删除「写报告」后从列表移除",
+      "ok": true
+    },
+    {
+      "step": "empty_guide",
+      "detail": "清空列表后显示引导文案",
+      "ok": true
+    }
+  ],
+  "failed_requests": [],
+  "http_errors": [],
+  "console_errors": [],
+  "screenshots": [
+    "evidence/verification/screenshot-empty-0.0.1.png",
+    "evidence/verification/screenshot-tasks-0.0.1.png",
+    "evidence/verification/screenshot-final-0.0.1.png"
+  ],
+  "visual_review": {
+    "provider": "kimi",
+    "model": "moonshot-v1-8k-vision-preview",
+    "verdict": "pass",
+    "issues": [],
+    "detail": "三张截图（空状态、任务列表含已完成、删除后最终状态）分别经 Kimi 视觉模型审查：文字完整可读、布局正常无重叠截断、完成态划线+灰色样式生效、按钮可见、无样式丢失或异常空白"
+  }
+}
