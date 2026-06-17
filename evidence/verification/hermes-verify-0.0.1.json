@@ -1,0 +1,22 @@
+{
+  "verifier": "hermes",
+  "iteration": "0.0.1",
+  "commit": "77065b1319eab4a367b4a68af4047a97a5bc1bda",
+  "timestamp": "2026-06-17T12:10:00+00:00",
+  "tests": {
+    "healthz": {"status": "pass", "output": "{\"ok\": true}"},
+    "index_html": {"status": "pass", "http": 200, "content_type": "text/html", "size": 5464},
+    "cache_control": {"status": "pass", "header": "no-cache"},
+    "not_found": {"status": "pass", "http": 404},
+    "feature_input": {"status": "pass", "element": "#taskInput"},
+    "feature_add": {"status": "pass", "form": "#addForm"},
+    "feature_delete": {"status": "pass", "found": 8},
+    "feature_complete": {"status": "pass", "found": 7},
+    "feature_checkbox": {"status": "pass", "found": 9},
+    "feature_strikethrough": {"status": "pass"},
+    "feature_gray_completed": {"status": "pass"},
+    "no_external_urls": {"status": "pass", "count": 0},
+    "no_cdn": {"status": "pass", "count": 0}
+  },
+  "all_passed": true
+}
