@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo List — Todo UI Probe</title>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 480px;
+    padding: 0 16px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .add-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .add-form input {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .add-form input:focus {
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+  }
+
+  .add-form button {
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: #4a90d9;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .add-form button:hover {
+    background: #357abd;
+  }
+
+  .add-form button:active {
+    background: #2a6299;
+  }
+
+  .task-list {
+    list-style: none;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+  }
+
+  .task-item:last-child {
+    border-bottom: none;
+  }
+
+  .task-item:hover {
+    background: #fafafa;
+  }
+
+  .task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+
+  .task-checkbox {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #4a90d9;
+  }
+
+  .task-text {
+    flex: 1;
+    font-size: 15px;
+    word-break: break-word;
+  }
+
+  .task-delete {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    font-size: 13px;
+    color: #e05050;
+    background: transparent;
+    border: 1px solid #e05050;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .task-delete:hover {
+    color: #fff;
+    background: #e05050;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    text-align: center;
+  }
+
+  .empty-state.hidden {
+    display: none;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+
+  .empty-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .empty-hint {
+    font-size: 14px;
+    color: #aaa;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <h1>📋 待办清单</h1>
+
+  <form class="add-form" id="addForm">
+    <input type="text" id="taskInput" placeholder="输入新任务…" autocomplete="off" maxlength="200" autofocus>
+    <button type="submit">添加</button>
+  </form>
+
+  <div id="emptyState" class="empty-state">
+    <div class="empty-icon">📝</div>
+    <div class="empty-title">还没有任务</div>
+    <div class="empty-hint">在上方输入任务名称，开始你的待办清单吧</div>
+  </div>
+
+  <ul class="task-list" id="taskList"></ul>
+</div>
+
+<script>
+(function () {
+  var tasks = [];
+  var taskList = document.getElementById('taskList');
+  var emptyState = document.getElementById('emptyState');
+  var taskInput = document.getElementById('taskInput');
+  var addForm = document.getElementById('addForm');
+
+  function render() {
+    taskList.innerHTML = '';
+
+    if (tasks.length === 0) {
+      emptyState.classList.remove('hidden');
+      taskList.style.display = 'none';
+    } else {
+      emptyState.classList.add('hidden');
+      taskList.style.display = '';
+    }
+
+    for (var i = 0; i < tasks.length; i++) {
+      var task = tasks[i];
+      var li = document.createElement('li');
+      li.className = 'task-item' + (task.completed ? ' completed' : '');
+
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'task-checkbox';
+      checkbox.checked = task.completed;
+      checkbox.addEventListener('change', (function (idx) {
+        return function () {
+          tasks[idx].completed = this.checked;
+          render();
+        };
+      })(i));
+
+      var text = document.createElement('span');
+      text.className = 'task-text';
+      text.textContent = task.text;
+
+      var deleteBtn = document.createElement('button');
+      deleteBtn.className = 'task-delete';
+      deleteBtn.textContent = '删除';
+      deleteBtn.addEventListener('click', (function (idx) {
+        return function () {
+          tasks.splice(idx, 1);
+          render();
+        };
+      })(i));
+
+      li.appendChild(checkbox);
+      li.appendChild(text);
+      li.appendChild(deleteBtn);
+      taskList.appendChild(li);
+    }
+  }
+
+  addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var text = taskInput.value.trim();
+    if (!text) return;
+    tasks.push({ text: text, completed: false });
+    taskInput.value = '';
+    render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
